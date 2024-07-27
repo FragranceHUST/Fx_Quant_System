@@ -1,0 +1,3 @@
+/home/ubuntu/Fx_Quant_System/DataUpdate/CMakeFiles/DataUpdate.dir
+/home/ubuntu/Fx_Quant_System/DataUpdate/CMakeFiles/edit_cache.dir
+/home/ubuntu/Fx_Quant_System/DataUpdate/CMakeFiles/rebuild_cache.dir
