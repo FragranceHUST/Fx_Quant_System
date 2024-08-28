@@ -1,0 +1,3 @@
+/home/ubuntu/Fx_Quant_System/BackTest/CMakeFiles/BackTest.dir
+/home/ubuntu/Fx_Quant_System/BackTest/CMakeFiles/edit_cache.dir
+/home/ubuntu/Fx_Quant_System/BackTest/CMakeFiles/rebuild_cache.dir

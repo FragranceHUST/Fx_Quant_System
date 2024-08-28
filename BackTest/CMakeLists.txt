@@ -56,10 +56,26 @@ link_directories(
 set(
     HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/source/stdafx.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/Trade.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/Straregy.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/DataRepository.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/CostFunction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/CommonSources.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/PriceData/Offer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/PriceData/Period.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/PriceData/PriceDataInterfaces.h
 )
 
 set(
     SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/Trade.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/Strategy.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/DataRepository.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/CostFunction.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/CommonSources.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/PriceData/Offer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/PriceData/Period.cpp
 )
 
 add_executable(
@@ -77,7 +93,6 @@ target_link_libraries(
 
 # add_dependencies(
 #     ${PROJECT}
-#     hptools
 # )
 
 set(
@@ -103,7 +118,7 @@ endif()
 # )
 
 if(${CMAKE_SYSTEM} MATCHES "Linux")
-    SET(CMAKE_CXX_FLAGS "--std=c++11 ${CMAKE_CXX_FLAGS}")
+    SET(CMAKE_CXX_FLAGS "--std=c++14 ${CMAKE_CXX_FLAGS} -g")
     set_target_properties(
         ${PROJECT}
         PROPERTIES
@@ -111,7 +126,7 @@ if(${CMAKE_SYSTEM} MATCHES "Linux")
                 -Wl,-rpath,.
     )
 elseif(${CMAKE_SYSTEM} MATCHES "Darwin")
-    SET(CMAKE_CXX_FLAGS "--stdlib=libc++ --std=c++11 ${CMAKE_CXX_FLAGS}")
+    SET(CMAKE_CXX_FLAGS "--stdlib=libc++ --std=c++14 ${CMAKE_CXX_FLAGS} -g")
     set_target_properties(
         ${PROJECT}
         PROPERTIES

@@ -22,6 +22,23 @@ public:
         return outputFile;
     }
 
+    static std::string getBackTestFilename(const std::string instrument, double time)
+    {
+        std::string backTestFilename = instrument + "_" + std::to_string(time);
+        int pos = backTestFilename.find('/');
+        if (pos != std::string::npos)
+        {
+            backTestFilename.replace(pos, 1, "_");
+        }
+        pos = backTestFilename.find('.');
+        if (pos != std::string::npos)
+        {
+            backTestFilename.replace(pos, 1, "");
+        }
+        backTestFilename += ".csv";
+        return backTestFilename;
+    }
+
     static void split(const std::string& line, char delimiter, std::vector<std::string>& vecofData)
     {
         std::stringstream ss(line);

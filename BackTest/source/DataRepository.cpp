@@ -6,6 +6,9 @@
 
 #include <sys/inotify.h>
 
+// 静态成员变量的初始化
+DataRepository* DataRepository::s_instance = nullptr;
+
 void DataRepository::loadFile()
 {
     const std::string filename_D1 = helpers::getOutputFilename(mInstrument.c_str(), "D1");
@@ -32,7 +35,7 @@ void DataRepository::loadFile()
         while (std::getline(ifs, line))
         {
             std::vector<std::string> tokens;
-            helpers::split(line, ';',  tokens);
+            helpers::split(line, ',',  tokens);
             DATE time;
             tm t;
             hptools::date::DateStringToCTime(tokens[0].c_str(), "%m.%d.%Y %H:%M:%S", &t);
@@ -107,5 +110,10 @@ void DataRepository::stopWatchingFile() {
 // 设置当前监听的品种名称
 void DataRepository::setInstrument(const std::string& Instrument)
 {
-        mInstrument = Instrument;
+    if (!mInstrument.empty())
+    {
+        return;
+    }
+    
+    mInstrument = Instrument;
 }

@@ -4,14 +4,12 @@ class Period;
 
 class DataRepository {
 public:
-    static std::shared_ptr<DataRepository> getInstance() {
-        std::shared_ptr<DataRepository> instance = s_instance.lock();
-        // 如果没有实例，则创建一个新的实例
-        if (!instance) {
-            instance = std::make_shared<DataRepository>();
-            s_instance = instance;
+    static DataRepository* getInstance() {
+        if (s_instance == nullptr)
+        {
+            s_instance = new DataRepository();
         }
-        return instance;
+        return s_instance;
     }
     void setInstrument(const std::string& Instrument);
     void loadFile();
@@ -35,8 +33,5 @@ private:
     int wd_; // inotify watch descriptor
     std::string mInstrument;
 
-    static std::weak_ptr<DataRepository> s_instance;
+    static DataRepository* s_instance;
 };
-
-// 静态成员变量的定义
-std::weak_ptr<DataRepository> DataRepository::s_instance;

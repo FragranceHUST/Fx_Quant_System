@@ -393,10 +393,20 @@ void writePrices(pricehistorymgr::IPriceHistoryCommunicator *communicator, price
         for (int i = 0; i < reader->size(); ++i)
         {
             DATE dt = reader->getDate(i);
-
             if (!utcMode)
                 dt = hptools::date::DateConvertTz(dt, hptools::date::UTC, hptools::date::EST);
             
+            // weekday: 0 -> Friday, 1 -> Saturday
+            int weekday = static_cast<int>(dt) % 7 + 1;
+            if (weekday <= 1)
+            {
+                continue;
+            }
+            else if (weekday == 2 && (dt - floor(dt) < 17.0 / 24))
+            {
+                continue;
+            }
+
             std::string time = localFormat.formatDate(dt);            
             if (reader->isBar())
             {
