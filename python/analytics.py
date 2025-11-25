@@ -18,8 +18,19 @@ class CostFunction:
         if not trades:
             return
         
+        trade_data_list = []
+        for t in trades:
+            data = t.__dict__.copy() # 复制基础属性
+            
+            # ** 显式计算并添加 pnl 属性**
+            # 注意：只有在交易状态为 CLOSED 时，pnl 的计算结果才用于绩效分析
+            # 在 Trade 类中，pnl 属性的实现是自动根据 status 判断的
+            data['pnl'] = t.pnl 
+            
+            trade_data_list.append(data)
+
         # 转换为DataFrame方便计算
-        df_trades = pd.DataFrame([t.__dict__ for t in trades])
+        df_trades = pd.DataFrame(trade_data_list)
         df_trades = df_trades[df_trades['status'] == 'CLOSED'].copy()
         
         if df_trades.empty:
