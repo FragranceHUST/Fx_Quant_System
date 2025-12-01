@@ -114,3 +114,59 @@ class FXCMDataCollector:
         clean_df.to_csv(self.csv_filename, index_label='time')
         print(f"Historical data saved to {self.csv_filename}. Total rows: {len(clean_df)}")
         return clean_df
+    
+    def start_realtime_recording(self):
+        """
+        启动实时监听，利用 LiveHistoryCreator 构建 K 线并写入 CSV
+        """
+        print(f"Starting Realtime Recording for {self.symbol}...")
+
+    def _append_latest_bar_to_file(self, df: pd.DataFrame):
+        """
+        智能追加数据到文件
+        """
+        # 获取 CSV 文件中最后的时间戳（避免重复读取整个文件，可以使用 seek，这里用 pandas 简化）
+        if not os.path.exists(self.csv_filename):
+            df.to_csv(self.csv_filename, index_label='time')
+            return
+    
+def parse_args():
+    parser = argparse.ArgumentParser(description='FXCM Data Collector')
+    parser.add_argument('-u', type=str, required=True, help='Username')
+    parser.add_argument('-p', type=str, required=True, help='Password')
+    parser.add_argument('-url', type=str, default='http://www.fxcorporate.com/Hosts.jsp', help='URL')
+    parser.add_argument('-c', type=str, default='Demo', help='Connection (Demo/Real)')
+    parser.add_argument('-i', type=str, default='EUR/USD', help='Instrument')
+    return parser.parse_args()
+
+if __name__ == "__main__":
+    args = parse_args()
+    
+    collector = FXCMDataCollector(
+        username=args.u,
+        password=args.p,
+        url=args.url,
+        connection=args.c,
+        symbol=args.i,
+        timeframe='m1' # 强制使用 M1，方便后续合成
+    )
+
+    try:
+        collector.connect()
+        
+        # 1. 下载历史数据 (如果文件不存在，或者你想强制更新)
+        # collector.download_5_years_history()
+        
+        # 如果只想追加历史数据中缺失的部分，逻辑会更复杂，建议首次先全量下载
+        if not os.path.exists(collector.csv_filename):
+             collector.download_years_history(years=5)
+        else:
+            print("History file exists. Jumping to realtime stream...")
+
+        # 2. 开启实时录制
+        # collector.start_realtime_recording()
+        
+    except Exception as e:
+        print(f"Main Error: {e}")
+    finally:
+        collector.disconnect()

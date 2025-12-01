@@ -10,7 +10,7 @@ class FXCMCLient:
         self.client = ForexConnect()
         self.session = None
     
-    def connect(self):
-        print("Connecting to FXCM...")
-        try:
-            self.client.login(self.username, self.password, self.url, self.connection)
+    # def connect(self):
+    #     print("Connecting to FXCM...")
+    #     try:
+    #         self.client.login(self.username, self.password, self.url, self.connection)
